@@ -1,0 +1,495 @@
+From 26978ad2e58e355112df6556a61bd2619d4dee9a Mon Sep 17 00:00:00 2001
+From: Suraj Thanugundla <sthanugu@amazon.com>
+Date: Wed, 17 Dec 2025 16:19:31 -0800
+Subject: [PATCH] test
+
+---
+ Source/WebCore/Sources.txt                    |   1 +
+ .../WebCore/WebCore.xcodeproj/project.pbxproj |   6 ++
+ .../WebCore/css/CSSPrimitiveValueMappings.h   |  30 ++++++
+ Source/WebCore/css/CSSProperties.json         |  21 ++++
+ .../WebCore/rendering/style/RenderStyleBase.h |   2 +
+ .../rendering/style/RenderStyleConstants.cpp  |  20 ++++
+ .../rendering/style/RenderStyleConstants.h    |  14 +++
+ .../style/StyleRareNonInheritedData.cpp       |   7 +-
+ .../style/StyleRareNonInheritedData.h         |   2 +
+ .../overflow/StyleOverflowClipMargin.cpp      |  87 +++++++++++++++
+ .../values/overflow/StyleOverflowClipMargin.h | 100 ++++++++++++++++++
+ 11 files changed, 289 insertions(+), 1 deletion(-)
+ create mode 100644 Source/WebCore/style/values/overflow/StyleOverflowClipMargin.cpp
+ create mode 100644 Source/WebCore/style/values/overflow/StyleOverflowClipMargin.h
+
+diff --git a/Source/WebCore/Sources.txt b/Source/WebCore/Sources.txt
+index c452a5b6cd..9983a9ef4f 100644
+--- a/Source/WebCore/Sources.txt
++++ b/Source/WebCore/Sources.txt
+@@ -3312,6 +3312,7 @@ style/values/non-standard/StyleWebKitTextStrokeWidth.cpp
+ style/values/non-standard/StyleWebKitTouchCallout.cpp
+ style/values/overflow/StyleBlockEllipsis.cpp
+ style/values/overflow/StyleScrollbarGutter.cpp
++style/values/overflow/StyleOverflowClipMargin.cpp
+ style/values/page/StylePageSize.cpp
+ style/values/pointerevents/StyleTouchAction.cpp
+ style/values/primitives/StyleLengthResolution.cpp
+diff --git a/Source/WebCore/WebCore.xcodeproj/project.pbxproj b/Source/WebCore/WebCore.xcodeproj/project.pbxproj
+index 9fb230185f..c61009d137 100644
+--- a/Source/WebCore/WebCore.xcodeproj/project.pbxproj
++++ b/Source/WebCore/WebCore.xcodeproj/project.pbxproj
+@@ -4907,6 +4907,7 @@
+ 		B5A684220FFABE9800D24689 /* SQLiteFileSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = B5A684210FFABE9800D24689 /* SQLiteFileSystem.h */; settings = {ATTRIBUTES = (Private, ); }; };
+ 		B5B65874186FDE4C009C26E8 /* RenderPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = ADE16736181050C300463A2E /* RenderPtr.h */; settings = {ATTRIBUTES = (Private, ); }; };
+ 		B5B7A17117C10AC000E4AA0A /* ElementData.h in Headers */ = {isa = PBXBuildFile; fileRef = B5B7A16E17C1048000E4AA0A /* ElementData.h */; settings = {ATTRIBUTES = (Private, ); }; };
++		B5D5D5762EF2862600D02F7D /* StyleOverflowClipMargin.h in Headers */ = {isa = PBXBuildFile; fileRef = B5D5D5752EF2860B00D02F7D /* StyleOverflowClipMargin.h */; settings = {ATTRIBUTES = (Private, ); }; };
+ 		B6566270120B1227006EA85C /* JSIDBTransaction.h in Headers */ = {isa = PBXBuildFile; fileRef = B656626E120B1227006EA85C /* JSIDBTransaction.h */; };
+ 		B658FFA21522EF3A00DD5595 /* JSRadioNodeList.h in Headers */ = {isa = PBXBuildFile; fileRef = B658FFA01522EF3A00DD5595 /* JSRadioNodeList.h */; };
+ 		B658FFA61522EFAA00DD5595 /* RadioNodeList.h in Headers */ = {isa = PBXBuildFile; fileRef = B658FFA41522EFAA00DD5595 /* RadioNodeList.h */; };
+@@ -18344,6 +18345,7 @@
+ 		B2FA3D2D0AB75A6F000E5AC4 /* JSSVGUseElement.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JSSVGUseElement.h; sourceTree = "<group>"; };
+ 		B2FA3D2E0AB75A6F000E5AC4 /* JSSVGViewElement.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = JSSVGViewElement.cpp; sourceTree = "<group>"; };
+ 		B2FA3D2F0AB75A6F000E5AC4 /* JSSVGViewElement.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JSSVGViewElement.h; sourceTree = "<group>"; };
++		B50153D72EF32CC1009614AA /* StyleOverflowClipMargin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StyleOverflowClipMargin.cpp; sourceTree = "<group>"; };
+ 		B50F5B800E96CD9900AD71A6 /* WebCoreObjCExtras.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WebCoreObjCExtras.mm; sourceTree = "<group>"; };
+ 		B51A2F3E17D7D3A40072517A /* ImageQualityController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageQualityController.h; sourceTree = "<group>"; };
+ 		B51A2F4017D7D5DA0072517A /* ImageQualityController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageQualityController.cpp; sourceTree = "<group>"; };
+@@ -18373,6 +18375,7 @@
+ 		B5A684230FFABEAA00D24689 /* SQLiteFileSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SQLiteFileSystem.cpp; sourceTree = "<group>"; };
+ 		B5B7A16E17C1048000E4AA0A /* ElementData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ElementData.h; sourceTree = "<group>"; };
+ 		B5B7A16F17C1080600E4AA0A /* ElementData.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ElementData.cpp; sourceTree = "<group>"; };
++		B5D5D5752EF2860B00D02F7D /* StyleOverflowClipMargin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StyleOverflowClipMargin.h; sourceTree = "<group>"; };
+ 		B656626E120B1227006EA85C /* JSIDBTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSIDBTransaction.h; sourceTree = "<group>"; };
+ 		B658FF9F1522EF3A00DD5595 /* JSRadioNodeList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JSRadioNodeList.cpp; sourceTree = "<group>"; };
+ 		B658FFA01522EF3A00DD5595 /* JSRadioNodeList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSRadioNodeList.h; sourceTree = "<group>"; };
+@@ -36897,6 +36900,8 @@
+ 		BC966B362E274F530028A7AF /* overflow */ = {
+ 			isa = PBXGroup;
+ 			children = (
++				B50153D72EF32CC1009614AA /* StyleOverflowClipMargin.cpp */,
++				B5D5D5752EF2860B00D02F7D /* StyleOverflowClipMargin.h */,
+ 				BC966B372E274F790028A7AF /* StyleBlockEllipsis.cpp */,
+ 				DDCF765C2C7F85E2005DDAFF /* StyleBlockEllipsis.h */,
+ 				BC092AAD2E31611C002ACB2C /* StyleMaximumLines.h */,
+@@ -45707,6 +45712,7 @@
+ 				A9C6E5A60D746458006442E9 /* Navigator.h in Headers */,
+ 				E12719C70EEEC16800F61213 /* NavigatorBase.h in Headers */,
+ 				8321507E1F27EA1B0095B136 /* NavigatorBeacon.h in Headers */,
++				B5D5D5762EF2862600D02F7D /* StyleOverflowClipMargin.h in Headers */,
+ 				F440E77A233D94D70063F9AB /* NavigatorClipboard.h in Headers */,
+ 				E596DD29251903D200C275A7 /* NavigatorContacts.h in Headers */,
+ 				F4034FAE275EAD76003A81F8 /* NavigatorCookieConsent.h in Headers */,
+diff --git a/Source/WebCore/css/CSSPrimitiveValueMappings.h b/Source/WebCore/css/CSSPrimitiveValueMappings.h
+index b2179eaef1..88bbe5bb0c 100644
+--- a/Source/WebCore/css/CSSPrimitiveValueMappings.h
++++ b/Source/WebCore/css/CSSPrimitiveValueMappings.h
+@@ -478,6 +478,36 @@ template<> constexpr FillBox fromCSSValueID(CSSValueID valueID)
+     return FillBox::BorderBox;
+ }
+ 
++constexpr CSSValueID toCSSValueID(OverflowClipBox e)
++{
++    switch (e) {
++    case OverflowClipBox::BorderBox:
++        return CSSValueBorderBox;
++    case OverflowClipBox::PaddingBox:
++        return CSSValuePaddingBox;
++    case OverflowClipBox::ContentBox:
++        return CSSValueContentBox;
++    }
++    ASSERT_NOT_REACHED_UNDER_CONSTEXPR_CONTEXT();
++    return CSSValueInvalid;
++}
++
++template<> constexpr OverflowClipBox fromCSSValueID(CSSValueID valueID)
++{
++    switch (valueID) {
++    case CSSValueBorderBox:
++        return OverflowClipBox::BorderBox;
++    case CSSValuePaddingBox:
++        return OverflowClipBox::PaddingBox;
++    case CSSValueContentBox:
++        return OverflowClipBox::ContentBox;
++    default:
++        break;
++    }
++    ASSERT_NOT_REACHED_UNDER_CONSTEXPR_CONTEXT();
++    return OverflowClipBox::PaddingBox;
++}
++
+ #define TYPE FillRepeat
+ #define FOR_EACH(CASE) CASE(Repeat) CASE(NoRepeat) CASE(Round) CASE(Space)
+ DEFINE_TO_FROM_CSS_VALUE_ID_FUNCTIONS
+diff --git a/Source/WebCore/css/CSSProperties.json b/Source/WebCore/css/CSSProperties.json
+index 75464e2f00..d6175f4a9b 100644
+--- a/Source/WebCore/css/CSSProperties.json
++++ b/Source/WebCore/css/CSSProperties.json
+@@ -7266,6 +7266,27 @@
+                 "url": "https://drafts.csswg.org/css-overflow-3/#propdef-overflow-block"
+             }
+         },
++        "overflow-clip-margin": {
++            "animation-type": "by computed value",
++            "inherited": false,
++            "initial": "0px",
++            "values": [
++                "border-box",
++                "content-box",
++                "padding-box"
++            ],
++            "codegen-properties": {
++                "render-style-storage-path": ["m_nonInheritedData", "rareData"],
++                "render-style-storage-kind": "reference",
++                "render-style-type": "Style::OverflowClipMargin",
++                "parser-grammar": " <<values>> || <length [0,inf]>",
++                "parser-exported": true
++            },
++            "specification": {
++                "category": "css-overflow",
++                "url": "https://drafts.csswg.org/css-overflow/#overflow-clip-margin"
++            }
++        },
+         "overscroll-behavior": {
+             "codegen-properties": {
+                 "longhands": [
+diff --git a/Source/WebCore/rendering/style/RenderStyleBase.h b/Source/WebCore/rendering/style/RenderStyleBase.h
+index bbea00a681..e57ec7d730 100644
+--- a/Source/WebCore/rendering/style/RenderStyleBase.h
++++ b/Source/WebCore/rendering/style/RenderStyleBase.h
+@@ -154,6 +154,7 @@ enum class Order : bool;
+ enum class OutlineStyle : uint8_t;
+ enum class Overflow : uint8_t;
+ enum class OverflowAnchor : bool;
++enum class OverflowClipBox : uint8_t;
+ enum class OverflowContinue : bool;
+ enum class OverflowWrap : uint8_t;
+ enum class OverscrollBehavior : uint8_t;
+@@ -303,6 +304,7 @@ struct OffsetDistance;
+ struct OffsetPath;
+ struct OffsetPosition;
+ struct OffsetRotate;
++struct OverflowClipMargin;
+ struct Opacity;
+ struct Orphans;
+ struct PaddingEdge;
+diff --git a/Source/WebCore/rendering/style/RenderStyleConstants.cpp b/Source/WebCore/rendering/style/RenderStyleConstants.cpp
+index a176b0196b..91a2807497 100644
+--- a/Source/WebCore/rendering/style/RenderStyleConstants.cpp
++++ b/Source/WebCore/rendering/style/RenderStyleConstants.cpp
+@@ -869,6 +869,26 @@ TextStream& operator<<(TextStream& ts, Overflow overflow)
+     return ts;
+ }
+ 
++TextStream& operator<<(TextStream& ts, OverflowClipBox overflowClipBox)
++{
++    switch (overflowClipBox) {
++    case OverflowClipBox::BorderBox: ts << "border-box"_s; break;
++    case OverflowClipBox::ContentBox: ts << "content-box"_s; break;
++    case OverflowClipBox::PaddingBox: ts << "padding-box"_s; break;
++    }
++    return ts;
++}
++
++TextStream& operator<<(TextStream& ts, OverflowClipMarginType overflowClipBox)
++{
++    switch (overflowClipBox) {
++    case OverflowClipMarginType::Length: ts << "length"_s; break;
++    case OverflowClipMarginType::OverflowClipBox: ts << "overflowclipbox"_s; break;
++    case OverflowClipMarginType::LengthAndOverflowClipBox: ts << "lengthandoverflowclipbox"_s; break;
++    }
++    return ts;
++}
++
+ TextStream& operator<<(TextStream& ts, OverflowAlignment alignment)
+ {
+     switch (alignment) {
+diff --git a/Source/WebCore/rendering/style/RenderStyleConstants.h b/Source/WebCore/rendering/style/RenderStyleConstants.h
+index 708ba9c57b..fb96a74b23 100644
+--- a/Source/WebCore/rendering/style/RenderStyleConstants.h
++++ b/Source/WebCore/rendering/style/RenderStyleConstants.h
+@@ -228,6 +228,18 @@ enum class Overflow : uint8_t {
+     PagedY
+ };
+ 
++enum class OverflowClipBox : uint8_t {
++    BorderBox,
++    ContentBox,
++    PaddingBox
++};
++
++enum class OverflowClipMarginType : uint8_t {
++    Length,
++    OverflowClipBox,
++    LengthAndOverflowClipBox
++};
++
+ enum class Clear : uint8_t {
+     None,
+     Left,
+@@ -1202,6 +1214,8 @@ WTF::TextStream& operator<<(WTF::TextStream&, OutlineStyle);
+ WTF::TextStream& operator<<(WTF::TextStream&, WebCore::Overflow);
+ WTF::TextStream& operator<<(WTF::TextStream&, OverflowAlignment);
+ WTF::TextStream& operator<<(WTF::TextStream&, OverflowWrap);
++WTF::TextStream& operator<<(WTF::TextStream&, OverflowClipBox);
++WTF::TextStream& operator<<(WTF::TextStream&, OverflowClipMarginType);
+ WTF::TextStream& operator<<(WTF::TextStream&, PointerEvents);
+ WTF::TextStream& operator<<(WTF::TextStream&, PositionType);
+ WTF::TextStream& operator<<(WTF::TextStream&, PrintColorAdjust);
+diff --git a/Source/WebCore/rendering/style/StyleRareNonInheritedData.cpp b/Source/WebCore/rendering/style/StyleRareNonInheritedData.cpp
+index d4013bbe82..a58f77843b 100644
+--- a/Source/WebCore/rendering/style/StyleRareNonInheritedData.cpp
++++ b/Source/WebCore/rendering/style/StyleRareNonInheritedData.cpp
+@@ -144,6 +144,7 @@ StyleRareNonInheritedData::StyleRareNonInheritedData()
+     , contain(RenderStyle::initialContain().toRaw())
+     , overflowContinue(static_cast<unsigned>(RenderStyle::initialOverflowContinue()))
+     , scrollSnapStop(static_cast<unsigned>(RenderStyle::initialScrollSnapStop()))
++    , overflowClipMargin(RenderStyle::initialOverflowClipMargin())
+ {
+ }
+ 
+@@ -252,6 +253,7 @@ inline StyleRareNonInheritedData::StyleRareNonInheritedData(const StyleRareNonIn
+     , contain(o.contain)
+     , overflowContinue(o.overflowContinue)
+     , scrollSnapStop(o.scrollSnapStop)
++    , overflowClipMargin(o.overflowClipMargin)
+ {
+ }
+ 
+@@ -366,7 +368,8 @@ bool StyleRareNonInheritedData::operator==(const StyleRareNonInheritedData& o) c
+         && marginTrim == o.marginTrim
+         && contain == o.contain
+         && overflowContinue == o.overflowContinue
+-        && scrollSnapStop == o.scrollSnapStop;
++        && scrollSnapStop == o.scrollSnapStop
++        && overflowClipMargin == o.overflowClipMargin;
+ }
+ 
+ Style::Contain StyleRareNonInheritedData::usedContain() const
+@@ -543,6 +546,8 @@ void StyleRareNonInheritedData::dumpDifferences(TextStream& ts, const StyleRareN
+ 
+     LOG_IF_DIFFERENT_WITH_CAST(OverflowContinue, overflowContinue);
+     LOG_IF_DIFFERENT_WITH_CAST(ScrollSnapStop, scrollSnapStop);
++
++    // LOG_IF_DIFFERENT(overflowClipMargin);
+ }
+ #endif // !LOG_DISABLED
+ 
+diff --git a/Source/WebCore/rendering/style/StyleRareNonInheritedData.h b/Source/WebCore/rendering/style/StyleRareNonInheritedData.h
+index 405cb3c89a..1a5314673c 100644
+--- a/Source/WebCore/rendering/style/StyleRareNonInheritedData.h
++++ b/Source/WebCore/rendering/style/StyleRareNonInheritedData.h
+@@ -48,6 +48,7 @@
+ #include <WebCore/StyleOffsetPath.h>
+ #include <WebCore/StyleOffsetPosition.h>
+ #include <WebCore/StyleOffsetRotate.h>
++#include <WebCore/StyleOverflowClipMargin.h>
+ #include <WebCore/StylePageSize.h>
+ #include <WebCore/StylePerspective.h>
+ #include <WebCore/StylePerspectiveOrigin.h>
+@@ -279,6 +280,7 @@ public:
+     PREFERRED_TYPE(OverflowContinue) unsigned overflowContinue : 1;
+     PREFERRED_TYPE(ScrollSnapStop) unsigned scrollSnapStop : 1;
+ 
++    Style::OverflowClipMargin overflowClipMargin;
+ private:
+     StyleRareNonInheritedData();
+     StyleRareNonInheritedData(const StyleRareNonInheritedData&);
+diff --git a/Source/WebCore/style/values/overflow/StyleOverflowClipMargin.cpp b/Source/WebCore/style/values/overflow/StyleOverflowClipMargin.cpp
+new file mode 100644
+index 0000000000..0e1309465c
+--- /dev/null
++++ b/Source/WebCore/style/values/overflow/StyleOverflowClipMargin.cpp
+@@ -0,0 +1,87 @@
++//
++//  StyleOverflowClipMargin.cpp
++//  WebCore
++//
++//  Created by Thanugundla, Suraj on 12/17/25.
++//
++
++#include "StyleOverflowClipMargin.h"
++#include "CSSPrimitiveValue.h"
++#include "CSSValueList.h"
++#include "StyleBuilderChecking.h"
++#include "CSSPrimitiveValueMappings.h"
++#include "AnimationUtilities.h"
++#include "RenderStyleInlines.h"
++
++namespace WebCore {
++namespace Style {
++
++using namespace CSS::Literals;
++
++auto CSSValueConversion<OverflowClipMargin>::operator()(BuilderState& state, const CSSValue& value) -> OverflowClipMargin
++{
++    RefPtr primitiveValue = requiredDowncast<CSSPrimitiveValue>(state, value);
++
++    if (!primitiveValue) {
++        return { 0_css_px };
++    }
++
++    if (primitiveValue->isValueID()) {
++        return { fromCSSValue<OverflowClipBox>(*primitiveValue) };
++    }
++
++    if (primitiveValue->isLength()) {
++        return { toStyleFromCSSValue<OverflowClipMargin::Length>(state, *primitiveValue) };
++    }
++
++    auto list = requiredListDowncast<CSSValueList, CSSValue, 2>(state, value);
++
++    if (list) {
++        Ref value0 = list->item(0);
++
++        RefPtr clipBoxValue = requiredDowncast<CSSPrimitiveValue>(state, value0);
++
++        Ref value1 = list->item(1);
++
++        RefPtr lengthValue = requiredDowncast<CSSPrimitiveValue>(state, value1);
++
++        if (!lengthValue->isLength()) {
++            if (clipBoxValue->isValueID()) {
++                return { fromCSSValue<OverflowClipBox>(*primitiveValue) };
++            }
++        }
++
++        if (clipBoxValue->isValueID()) {
++            return { fromCSSValue<OverflowClipBox>(*primitiveValue), toStyleFromCSSValue<OverflowClipMargin::Length>(state, *primitiveValue) };
++        }
++    }
++
++    return { 0_css_px };
++}
++
++// MARK: - Blending
++
++auto Blending<OverflowClipMargin>::canBlend(const OverflowClipMargin& a, const OverflowClipMargin& b) -> bool
++{
++    if (a.m_length.isZero() && b.m_length.isZero()) {
++
++    }
++    return false;
++}
++
++auto Blending<OverflowClipMargin>::blend(const OverflowClipMargin& a, const OverflowClipMargin& b, const RenderStyle& aStyle, const RenderStyle& bStyle, const BlendingContext& context) -> OverflowClipMargin
++{
++    if (context.isDiscrete) {
++        ASSERT(!context.progress || context.progress == 1);
++        return context.progress ? b : a;
++    }
++
++    ASSERT(a.m_type == b.m_type);
++    if (aStyle.isDisplayInlineType() && bStyle.isDisplayInlineType()) {
++
++    }
++    return OverflowClipMargin { 0_css_px };
++}
++
++} // namespace Style
++} // namespace WebCore
+diff --git a/Source/WebCore/style/values/overflow/StyleOverflowClipMargin.h b/Source/WebCore/style/values/overflow/StyleOverflowClipMargin.h
+new file mode 100644
+index 0000000000..2bf781507a
+--- /dev/null
++++ b/Source/WebCore/style/values/overflow/StyleOverflowClipMargin.h
+@@ -0,0 +1,100 @@
++//
++//  StyleOverflowClipMargin.h
++//  WebCore
++//
++//  Created by Thanugundla, Suraj on 12/16/25.
++//
++
++#pragma once
++
++#include "CSSValueKeywords.h"
++#include <WebCore/RenderStyleConstants.h>
++#include <WebCore/StylePrimitiveNumericTypes.h>
++#include <WebCore/StyleValueTypes.h>
++
++namespace WebCore {
++namespace Style {
++
++using namespace CSS::Literals;
++
++struct OverflowClipMargin {
++    using Length = Style::Length<CSS::Nonnegative, float>;
++    
++    OverflowClipMargin(CSS::ValueLiteral<CSS::LengthUnit::Px> length)
++        : m_type { OverflowClipMarginType::Length }
++        , m_length { length }
++        , m_clipBox { OverflowClipBox::PaddingBox }
++    {
++    }
++
++    OverflowClipMargin(Length length)
++        : m_type  { OverflowClipMarginType::Length }
++        , m_length { length }
++        , m_clipBox { OverflowClipBox::PaddingBox }
++    {
++    }
++
++    OverflowClipMargin(OverflowClipBox clipBox)
++        : m_type { OverflowClipMarginType::OverflowClipBox }
++        , m_length { 0_css_px }
++        , m_clipBox { clipBox }
++    {
++    }
++
++    OverflowClipMargin(OverflowClipBox clipBox, Length length)
++        : m_type { OverflowClipMarginType::LengthAndOverflowClipBox }
++        , m_length { length }
++        , m_clipBox { clipBox }
++    {
++    }
++
++    // TODO: Remove
++    // OverflowClipMargin() : m_length(0_css_px), m_clipBox(OverflowClipBox::PaddingBox) {}
++    // bool isLength() const { return isValue(); }
++
++    template<typename... F> decltype(auto) switchOn(F&&... f) const
++    {
++        auto visitor = WTF::makeVisitor(std::forward<F>(f)...);
++
++        switch (m_type) {
++        case OverflowClipMarginType::Length:
++            return visitor(m_length);
++        case OverflowClipMarginType::OverflowClipBox:
++            return visitor(m_clipBox);
++        case OverflowClipMarginType::LengthAndOverflowClipBox:
++            return visitor(SpaceSeparatedTuple { m_clipBox, m_length });
++        }
++        RELEASE_ASSERT_NOT_REACHED();
++    }
++
++    bool operator==(const OverflowClipMargin&) const = default;
++private:
++    friend struct Blending<OverflowClipMargin>;
++
++    OverflowClipMargin(OverflowClipMarginType type, Length length, OverflowClipBox clipBox)
++        : m_type { type }
++        , m_length { length }
++        , m_clipBox { clipBox }
++    {
++    }
++
++    OverflowClipMarginType m_type;
++    Length m_length;
++    OverflowClipBox m_clipBox;
++};
++
++// MARK: - Conversion
++
++template<> struct CSSValueConversion<OverflowClipMargin> { auto operator()(BuilderState&, const CSSValue&) -> OverflowClipMargin; };
++
++// MARK: - Blending
++
++template<> struct Blending<OverflowClipMargin> {
++    auto canBlend(const OverflowClipMargin&, const OverflowClipMargin&) -> bool;
++    auto blend(const OverflowClipMargin&, const OverflowClipMargin&, const RenderStyle&, const RenderStyle&, const BlendingContext&) -> OverflowClipMargin;
++};
++
++} // namespace Style
++} // namespace WebCore
++
++DEFINE_VARIANT_LIKE_CONFORMANCE(WebCore::Style::OverflowClipMargin)
+-- 
+2.50.1 (Apple Git-155)
+

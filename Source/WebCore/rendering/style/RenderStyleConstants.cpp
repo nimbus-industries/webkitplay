@@ -869,6 +869,26 @@ TextStream& operator<<(TextStream& ts, Overflow overflow)
     return ts;
 }
 
+TextStream& operator<<(TextStream& ts, OverflowClipBox overflowClipBox)
+{
+    switch (overflowClipBox) {
+    case OverflowClipBox::BorderBox: ts << "border-box"_s; break;
+    case OverflowClipBox::ContentBox: ts << "content-box"_s; break;
+    case OverflowClipBox::PaddingBox: ts << "padding-box"_s; break;
+    }
+    return ts;
+}
+
+TextStream& operator<<(TextStream& ts, OverflowClipMarginType overflowClipBox)
+{
+    switch (overflowClipBox) {
+    case OverflowClipMarginType::Length: ts << "length"_s; break;
+    case OverflowClipMarginType::OverflowClipBox: ts << "overflowclipbox"_s; break;
+    case OverflowClipMarginType::LengthAndOverflowClipBox: ts << "lengthandoverflowclipbox"_s; break;
+    }
+    return ts;
+}
+
 TextStream& operator<<(TextStream& ts, OverflowAlignment alignment)
 {
     switch (alignment) {

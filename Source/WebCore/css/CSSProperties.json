@@ -7315,6 +7315,27 @@
                 "url": "https://drafts.csswg.org/css-overflow-3/#propdef-overflow-block"
             }
         },
+        "overflow-clip-margin": {
+            "animation-type": "by computed value",
+            "inherited": false,
+            "initial": "0px",
+            "values": [
+                            "border-box",
+                            "content-box",
+                            "padding-box"
+                       ],
+            "codegen-properties": {
+                "render-style-storage-path": ["m_nonInheritedData", "rareData"],
+                "render-style-storage-kind": "reference",
+                "render-style-type": "Style::OverflowClipMargin",
+                "parser-grammar": "<<values>>||<length [0,inf]>",
+                "parser-exported": true
+            },
+            "specification": {
+                "category": "css-overflow",
+                "url": "https://drafts.csswg.org/css-overflow/#overflow-clip-margin"
+            }
+        },
         "overscroll-behavior": {
             "codegen-properties": {
                 "longhands": [

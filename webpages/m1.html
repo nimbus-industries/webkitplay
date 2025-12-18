@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>overflow-clip-margin</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script>
+      function getOverflowClipMargin() {
+        // const element = document.querySelector(".box");
+        // const element = document.getElementById("box");
+        // element.style["overflow-clip-margin"] = "";
+        // element.style["overflow-clip-margin"] = "20px padding-box";
+        // const ptyValue = element.style.getPropertyValue("overflow-clip-margin");
+        // console.log("pty value overflow-clip-margin:", ptyValue);
+        // if (!element) {
+        //   console.error('Element with class "box" not found');
+        //   return null;
+        // }
+        // const computedStyle = window.getComputedStyle(element);
+        // const overflowClipMargin = computedStyle.getPropertyValue(
+        //   "overflow-clip-margin",
+        // );
+        // console.log("computed overflow-clip-margin:", overflowClipMargin);
+        // return overflowClipMargin;
+      }
+
+      // Start the interval
+      const intervalId = setInterval(getOverflowClipMargin, 1000);
+
+      // Optional: Stop the interval after a certain condition or time
+      // clearInterval(intervalId);
+    </script>
+  </head>
+  <body>
+    <div class="box" id="box">
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+      velit esse cillum dolore eu fugiat nulla pariatur.
+    </div>
+  </body>
+</html>

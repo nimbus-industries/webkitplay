@@ -85,7 +85,6 @@ struct AspectRatio {
         }
         RELEASE_ASSERT_NOT_REACHED();
     }
-
     bool operator==(const AspectRatio&) const = default;
 
 private:

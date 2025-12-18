@@ -234,6 +234,18 @@ enum class Overflow : uint8_t {
     PagedY
 };
 
+enum class OverflowClipBox : uint8_t {
+    BorderBox,
+    ContentBox,
+    PaddingBox
+};
+
+enum class OverflowClipMarginType : uint8_t {
+    Length,
+    OverflowClipBox,
+    LengthAndOverflowClipBox
+};
+
 enum class Clear : uint8_t {
     None,
     Left,
@@ -1208,6 +1220,8 @@ WTF::TextStream& operator<<(WTF::TextStream&, OutlineStyle);
 WTF::TextStream& operator<<(WTF::TextStream&, WebCore::Overflow);
 WTF::TextStream& operator<<(WTF::TextStream&, OverflowAlignment);
 WTF::TextStream& operator<<(WTF::TextStream&, OverflowWrap);
+WTF::TextStream& operator<<(WTF::TextStream&, OverflowClipBox);
+WTF::TextStream& operator<<(WTF::TextStream&, OverflowClipMarginType);
 WTF::TextStream& operator<<(WTF::TextStream&, PointerEvents);
 WTF::TextStream& operator<<(WTF::TextStream&, PositionType);
 WTF::TextStream& operator<<(WTF::TextStream&, PrintColorAdjust);

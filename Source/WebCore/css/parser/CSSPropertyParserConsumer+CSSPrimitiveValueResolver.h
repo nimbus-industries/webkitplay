@@ -63,7 +63,7 @@ struct CSSPrimitiveValueResolverBase {
     template<CSS::Range nR, CSS::Range pR, typename T> static RefPtr<CSSPrimitiveValue> resolve(const CSS::NumberOrPercentageResolvedToNumber<nR, pR, T>& value, CSSPropertyParserOptions options = { })
     {
         return WTF::switchOn(value,
-            [&](const CSS::Number<nR, T>& value) -> RefPtr<CSSPrimitiveValue> {
+            [&](const CSS::Number<nR , T>& value) -> RefPtr<CSSPrimitiveValue> {
                 return resolve(value, options);
             },
             [&](const CSS::Percentage<pR, T>& value) -> RefPtr<CSSPrimitiveValue> {

@@ -140,6 +140,7 @@ NonInheritedRareData::NonInheritedRareData()
     , contain(ComputedStyle::initialContain().toRaw())
     , overflowContinue(static_cast<unsigned>(ComputedStyle::initialOverflowContinue()))
     , scrollSnapStop(static_cast<unsigned>(ComputedStyle::initialScrollSnapStop()))
+    , overflowClipMargin(ComputedStyle::initialOverflowClipMargin())
 {
 }
 
@@ -250,6 +251,7 @@ inline NonInheritedRareData::NonInheritedRareData(const NonInheritedRareData& o)
     , contain(o.contain)
     , overflowContinue(o.overflowContinue)
     , scrollSnapStop(o.scrollSnapStop)
+    , overflowClipMargin(o.overflowClipMargin)
 {
 }
 
@@ -366,7 +368,8 @@ bool NonInheritedRareData::operator==(const NonInheritedRareData& o) const
         && marginTrim == o.marginTrim
         && contain == o.contain
         && overflowContinue == o.overflowContinue
-        && scrollSnapStop == o.scrollSnapStop;
+        && scrollSnapStop == o.scrollSnapStop
+        && overflowClipMargin == o.overflowClipMargin;
 }
 
 Contain NonInheritedRareData::usedContain() const
@@ -540,6 +543,8 @@ void NonInheritedRareData::dumpDifferences(TextStream& ts, const NonInheritedRar
 
     LOG_IF_DIFFERENT_WITH_CAST(OverflowContinue, overflowContinue);
     LOG_IF_DIFFERENT_WITH_CAST(ScrollSnapStop, scrollSnapStop);
+
+    // LOG_IF_DIFFERENT(overflowClipMargin);
 }
 #endif // !LOG_DISABLED
 
