@@ -33,7 +33,7 @@
 
 NSString * const kUserAgentChangedNotificationName = @"UserAgentChangedNotification";
 
-static NSString * const defaultURL = @"http://www.webkit.org/";
+static NSString * const defaultURL = @"https://wpt.live/css/css-overflow/parsing/overflow-clip-margin.html";
 static NSString * const DefaultURLPreferenceKey = @"DefaultURL";
 
 static NSString * const CustomUserAgentPreferenceKey = @"CustomUserAgentIdentifier";

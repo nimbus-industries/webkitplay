@@ -479,6 +479,36 @@ template<> constexpr FillBox fromCSSValueID(CSSValueID valueID)
     return FillBox::BorderBox;
 }
 
+// constexpr CSSValueID toCSSValueID(OverflowClipBox e)
+// {
+//     switch (e) {
+//     case OverflowClipBox::BorderBox:
+//         return CSSValueBorderBox;
+//     case OverflowClipBox::PaddingBox:
+//         return CSSValuePaddingBox;
+//     case OverflowClipBox::ContentBox:
+//         return CSSValueContentBox;
+//     }
+//     ASSERT_NOT_REACHED_UNDER_CONSTEXPR_CONTEXT();
+//     return CSSValueInvalid;
+// }
+
+// template<> constexpr OverflowClipBox fromCSSValueID(CSSValueID valueID)
+// {
+//     switch (valueID) {
+//     case CSSValueBorderBox:
+//         return OverflowClipBox::BorderBox;
+//     case CSSValuePaddingBox:
+//         return OverflowClipBox::PaddingBox;
+//     case CSSValueContentBox:
+//         return OverflowClipBox::ContentBox;
+//     default:
+//         break;
+//     }
+//     ASSERT_NOT_REACHED_UNDER_CONSTEXPR_CONTEXT();
+//     return OverflowClipBox::PaddingBox;
+// }
+
 #define TYPE FillRepeat
 #define FOR_EACH(CASE) CASE(Repeat) CASE(NoRepeat) CASE(Round) CASE(Space)
 DEFINE_TO_FROM_CSS_VALUE_ID_FUNCTIONS
@@ -1998,6 +2028,12 @@ template<> constexpr TransformStyle3D fromCSSValueID(CSSValueID valueID)
 
 #define TYPE TransformBox
 #define FOR_EACH(CASE) CASE(StrokeBox) CASE(ContentBox) CASE(BorderBox) CASE(FillBox) CASE(ViewBox)
+DEFINE_TO_FROM_CSS_VALUE_ID_FUNCTIONS
+#undef TYPE
+#undef FOR_EACH
+
+#define TYPE OverflowClipBox
+#define FOR_EACH(CASE) CASE(ContentBox) CASE(BorderBox) CASE(PaddingBox)
 DEFINE_TO_FROM_CSS_VALUE_ID_FUNCTIONS
 #undef TYPE
 #undef FOR_EACH

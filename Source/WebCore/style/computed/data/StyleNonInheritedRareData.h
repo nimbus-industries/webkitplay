@@ -48,6 +48,7 @@
 #include <WebCore/StyleOffsetPath.h>
 #include <WebCore/StyleOffsetPosition.h>
 #include <WebCore/StyleOffsetRotate.h>
+#include <WebCore/StyleOverflowClipMargin.h>
 #include <WebCore/StylePageSize.h>
 #include <WebCore/StylePerspective.h>
 #include <WebCore/StylePerspectiveOrigin.h>
@@ -256,6 +257,7 @@ public:
     PREFERRED_TYPE(OverflowContinue) unsigned overflowContinue : 1;
     PREFERRED_TYPE(ScrollSnapStop) unsigned scrollSnapStop : 1;
 
+    Style::OverflowClipMargin overflowClipMargin;
 private:
     NonInheritedRareData();
     NonInheritedRareData(const NonInheritedRareData&);

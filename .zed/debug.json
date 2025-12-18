@@ -1,0 +1,9 @@
+[
+  {
+    "adapter": "CodeLLDB",
+    "label": "Debug Minibrowser",
+    "type": "lldb",
+    "request": "attach",
+    "pid": "84512",
+  },
+]
