@@ -1205,6 +1205,14 @@ void RenderObject::showRenderTreeForThis() const
     WTFLogAlways("%s", stream.release().utf8().data());
 }
 
+void RenderObject::showSubtreeForThis() const
+{
+    TextStream stream(TextStream::LineMode::MultipleLine, TextStream::Formatting::SVGStyleRect);
+    outputRenderTreeLegend(stream);
+    outputRenderSubTreeAndMark(stream, this, 1);
+    WTFLogAlways("%s", stream.release().utf8().data());
+}
+
 void RenderObject::showLineTreeForThis() const
 {
     auto* blockFlow = dynamicDowncast<RenderBlockFlow>(*this);
@@ -2446,7 +2454,7 @@ static bool usesVisuallyContiguousBidiTextSelection(const SimpleRange& range)
     UNUSED_PARAM(range);
     return false;
 #else
-    return protect(range.protectedStartContainer()->document())->settings().visuallyContiguousBidiTextSelectionEnabled();
+    return protect(range.startContainer().document())->settings().visuallyContiguousBidiTextSelectionEnabled();
 #endif
 }
 
